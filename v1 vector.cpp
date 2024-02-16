@@ -44,7 +44,7 @@ int main() {
 
     srand(time(NULL));
 
-    int maxStudentu = 3; // maksimalus studentų skaičius
+    int maxStudentu = 10; // maksimalus studentų skaičius
     int ivestiStudentai = 0; // skaičius jau įvestų studentų
 
     do {
