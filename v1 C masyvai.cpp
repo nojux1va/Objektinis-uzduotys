@@ -46,7 +46,7 @@ int main() {
 
     srand(time(NULL));
 
-    int maxStudentu = 3; // maksimalus studentų skaičius
+    int maxStudentu = 10; // maksimalus studentų skaičius
     int ivestiStudentai = 0; // skaičius jau įvestų studentų
 
     do {
@@ -62,7 +62,7 @@ int main() {
             case '1': {
                 if (ivestiStudentai < maxStudentu) {
                     Studentas naujas_studentas;
-                    naujas_studentas.nd = new int[10]; // allocate dynamic array
+                    naujas_studentas.nd = new int[10]; 
                     cout << "Iveskite studento varda: ";
                     cin >> naujas_studentas.vardas;
                     cout << "Iveskite studento pavarde: ";
@@ -70,6 +70,19 @@ int main() {
 
                     int pazymys;
                     bool bentVienasPazymys = false;
+
+                    cout << "Iveskite studento egzamino rezultata: ";
+                    while (true) {
+                        cin >> pazymys;
+                        if (pazymys < 0 || pazymys > 10 || cin.fail()) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
+                            continue;
+                        }
+                        naujas_studentas.egzaminas = pazymys;
+                        break;
+                    }
 
                     cout << "Iveskite studento namu darbu rezultatus (-1 baigti ivedineti): ";
                     int pazymiuSkaicius = 0;
@@ -90,11 +103,10 @@ int main() {
 
                     if (!bentVienasPazymys) {
                         cout << "Bent vienas pažymys turi būti įvestas. Bandykite dar kartą." << endl;
-                        delete[] naujas_studentas.nd; // free memory
+                        delete[] naujas_studentas.nd; 
                         continue;
                     }
 
-                    naujas_studentas.egzaminas = pazymys;
                     Studentas* naujas_masyvas = new Studentas[ivestiStudentai + 1];
                     for (int i = 0; i < ivestiStudentai; ++i) {
                         naujas_masyvas[i] = studentai[i];
@@ -110,7 +122,7 @@ int main() {
             case '2': {
                 if (ivestiStudentai < maxStudentu) {
                     Studentas naujas_studentas;
-                    naujas_studentas.nd = new int[3]; // allocate dynamic array
+                    naujas_studentas.nd = new int[3]; 
                     cout << "Iveskite studento varda: ";
                     cin >> naujas_studentas.vardas;
                     cout << "Iveskite studento pavarde: ";
@@ -137,7 +149,7 @@ int main() {
             case '3': {
                 if (ivestiStudentai < maxStudentu) {
                     Studentas naujas_studentas;
-                    naujas_studentas.nd = new int[3]; // allocate dynamic array
+                    naujas_studentas.nd = new int[3]; 
                     string vardai[] = {"Nojus", "Domas", "Mykolas", "Vytenis", "Rokas", "Emilis", "Edgaras", "Karolis", "Petras", "Matas"};
                     string pavardes[] = {"Kazlauskas", "Petrauskas", "Jankauskas", "Butkus", "Paulauskas", "Vasiliauskas", "Urbonas", "Navickas", "Ramanauskas", "Kavaliauskas"};
 
@@ -182,9 +194,9 @@ int main() {
             double mediana = skaiciuotiGalutiniMediana(studentai[i].nd, 3, studentai[i].egzaminas);
 
             cout << setw(20) << left << studentai[i].vardas << setw(20) << left << studentai[i].pavarde << setw(15) << right << fixed << setprecision(2) << vidurkis << setw(17) << right << fixed << setprecision(2) << mediana << endl;
-            delete[] studentai[i].nd; // free memory for each student
+            delete[] studentai[i].nd; 
         }
-        delete[] studentai; // free memory for the array of students
+        delete[] studentai; 
     } else {
         cout << "Nera studentu duomenu.\n";
     }
