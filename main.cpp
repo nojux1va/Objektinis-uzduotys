@@ -60,7 +60,7 @@ int main() {
 
         cout << "Ar norite ivesti naujo studento duomenis? (taip/ne): ";
         cin >> pasirinkimas;
-    } while (pasirinkimas == 'Taip' || pasirinkimas == 'taip');
+    } while (pasirinkimas == 'T' || pasirinkimas == 't');
 
     cout << endl;
     cout << setw(20) << left << "Vardas" << setw(20) << left << "Pavarde" << setw(15) << right << "Galutinis (Vid.)" << setw(15) << right << "Galutinis (Med.)" << endl;
