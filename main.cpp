@@ -48,10 +48,12 @@ int main() {
         cin >> naujas_studentas.pavarde;
 
         int pazymys;
+        bool bentVienasPazymys = false; // Patikrinimas, ar buvo įvestas bent vienas pažymys
+
         cout << "Iveskite studento namu darbu rezultatus (-1 baigti ivedineti): ";
         while (true) {
             cin >> pazymys;
-            if (pazymys == -1)
+            if (pazymys == -1 && bentVienasPazymys == true)
                 break;
             if (pazymys < 0 || pazymys > 10 || cin.fail()) {
                 cin.clear();
@@ -60,7 +62,14 @@ int main() {
                 continue;
             }
             naujas_studentas.nd.push_back(pazymys);
+            bentVienasPazymys = true; // Nustatome, kad buvo įvestas bent vienas pažymys
             cout << "Iveskite kitos namu darbu rezultata (-1 baigti ivedineti): ";
+        }
+
+        if (!bentVienasPazymys) 
+        { // Jei neįvestas bent vienas pažymys, prašome vartotojo įvesti iš naujo
+            cout << "Bent vienas pažymys turi būti įvestas. Bandykite dar kartą." << endl;
+            continue; // Pradėti ciklą iš naujo
         }
 
         cout << "Iveskite studento egzamino rezultata: ";
@@ -82,15 +91,36 @@ int main() {
         cin >> pasirinkimas;
     } while (pasirinkimas == 'T' || pasirinkimas == 't');
 
+    // Pasirinkimas, ar išvesti tik vidurkį, tik medianą arba abu
+    char isvedimoPasirinkimas;
+    cout << "Ar norite isvesti tik GalutiniVidurki (V) arba tik GalutiniMediana (M) arba abu (A)? ";
+    cin >> isvedimoPasirinkimas;
+
     cout << endl;
-    cout << setw(20) << left << "Vardas" << setw(20) << left << "Pavarde" << setw(15) << right << "Galutinis (Vid.)" << setw(17) << right << "Galutinis (Med.)" << endl;
+    cout << setw(20) << left << "Vardas" << setw(20) << left << "Pavarde";
+
+    if (isvedimoPasirinkimas == 'V' || isvedimoPasirinkimas == 'A') {
+        cout << setw(15) << right << "Galutinis (Vid.)";
+    }
+    if (isvedimoPasirinkimas == 'M' || isvedimoPasirinkimas == 'A') {
+        cout << setw(17) << right << "Galutinis (Med.)";
+    }
+    cout << endl;
     cout << "-------------------------------------------------------------------------" << endl;
 
     for (int i = 0; i < studentai.size(); ++i) {
         double vidurkis = skaiciuotiGalutiniVidurki(studentai[i].nd, studentai[i].egzaminas);
         double mediana = skaiciuotiGalutiniMediana(studentai[i].nd, studentai[i].egzaminas);
 
-        cout << setw(20) << left << studentai[i].vardas << setw(20) << left << studentai[i].pavarde << setw(15) << right << fixed << setprecision(2) << vidurkis << setw(17) << right << fixed << setprecision(2) << mediana << endl;
+        cout << setw(20) << left << studentai[i].vardas << setw(20) << left << studentai[i].pavarde;
+
+        if (isvedimoPasirinkimas == 'V' || isvedimoPasirinkimas == 'A') {
+            cout << setw(15) << right << fixed << setprecision(2) << vidurkis;
+        }
+        if (isvedimoPasirinkimas == 'M' || isvedimoPasirinkimas == 'A') {
+            cout << setw(17) << right << fixed << setprecision(2) << mediana;
+        }
+        cout << endl;
     }
 
     return 0;
