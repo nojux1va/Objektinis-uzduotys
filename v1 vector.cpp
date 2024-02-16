@@ -2,8 +2,8 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip> 
-#include <cstdlib> // Pridedame šį headerį, kad galėtume naudoti rand() funkciją
-#include <ctime> // Pridedame šį headerį, kad galėtume naudoti srand() funkciją
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -42,62 +42,139 @@ int main() {
     vector<Studentas> studentai;
     char pasirinkimas;
 
-    srand(time(NULL)); // Inicializuojame atsitiktinių skaičių generatorių
+    srand(time(NULL));
 
-    // Sukuriame masyvus su vardais ir pavardėmis
-    string vardai[] = {"Nojus", "Domas", "Mykolas", "Vytenis", "Rokas", "Emilis", "Edgaras", "Karolis", "Petras", "Matas"};
-    string pavardes[] = {"Kazlauskas", "Petrauskas", "Jankauskas", "Butkus", "Paulauskas", "Vasiliauskas", "Urbonas", "Navickas", "Ramanauskas", "Kavaliauskas"};
+    int maxStudentu = 3; // maksimalus studentų skaičius
+    int ivestiStudentai = 0; // skaičius jau įvestų studentų
 
     do {
-        Studentas naujas_studentas;
-        
-        // Sugeneruojame atsitiktinius vardus ir pavardes
-        naujas_studentas.vardas = vardai[rand() % 10];
-        naujas_studentas.pavarde = pavardes[rand() % 10];
-
-        // Sugeneruojame atsitiktinius pažymius
-        int pazymiuSkaicius = rand() % 10 + 1; // Nuolatinis pažymiu skaicius nuo 1 iki 10
-        for (int i = 0; i < pazymiuSkaicius; ++i) {
-            naujas_studentas.nd.push_back(rand() % 10 + 1); // Pažymiai nuo 1 iki 10
-        }
-
-        naujas_studentas.egzaminas = rand() % 10 + 1; // Egzamino rezultatas nuo 1 iki 10
-
-        studentai.push_back(naujas_studentas);
-
-        cout << "Ar norite ivesti naujo studento duomenis? (t/n): ";
+        cout << "Pasirinkite veiksmą:\n";
+        cout << "1 - įvesti ranka\n";
+        cout << "2 - įvesti ranka vardą, pavardę, generuoti pažymius\n";
+        cout << "3 - generuoti vardus, pavardes ir pažymius\n";
+        cout << "4 - baigti darbą\n";
+        cout << "Jūsų pasirinkimas: ";
         cin >> pasirinkimas;
-    } while (pasirinkimas == 'T' || pasirinkimas == 't');
+        
+        switch (pasirinkimas) {
+            case '1': {
+                if (ivestiStudentai < maxStudentu) {
+                    Studentas naujas_studentas;
+                    cout << "Iveskite studento varda: ";
+                    cin >> naujas_studentas.vardas;
+                    cout << "Iveskite studento pavarde: ";
+                    cin >> naujas_studentas.pavarde;
 
-    char isvedimoPasirinkimas;
-    cout << "Ar norite isvesti tik GalutiniVidurki (V) arba tik GalutiniMediana (M) arba abu (A)? ";
-    cin >> isvedimoPasirinkimas;
+                    int pazymys;
+                    bool bentVienasPazymys = false;
 
-    cout << endl;
-    cout << setw(20) << left << "Vardas" << setw(20) << left << "Pavarde";
+                    cout << "Iveskite studento namu darbu rezultatus (-1 baigti ivedineti): ";
+                    while (true) {
+                        cin >> pazymys;
+                        if (pazymys == -1 && bentVienasPazymys == true)
+                            break;
+                        if (pazymys < 0 || pazymys > 10 || cin.fail()) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
+                            continue;
+                        }
+                        naujas_studentas.nd.push_back(pazymys);
+                        bentVienasPazymys = true;
+                        cout << "Iveskite kitos namu darbu rezultata (-1 baigti ivedineti): ";
+                    }
 
-    if (isvedimoPasirinkimas == 'V' || isvedimoPasirinkimas == 'A') {
-        cout << setw(15) << right << "Galutinis (Vid.)";
-    }
-    if (isvedimoPasirinkimas == 'M' || isvedimoPasirinkimas == 'A') {
-        cout << setw(17) << right << "Galutinis (Med.)";
-    }
-    cout << endl;
-    cout << "-------------------------------------------------------------------------" << endl;
+                    if (!bentVienasPazymys) {
+                        cout << "Bent vienas pažymys turi būti įvestas. Bandykite dar kartą." << endl;
+                        continue;
+                    }
 
-    for (int i = 0; i < studentai.size(); ++i) {
-        double vidurkis = skaiciuotiGalutiniVidurki(studentai[i].nd, studentai[i].egzaminas);
-        double mediana = skaiciuotiGalutiniMediana(studentai[i].nd, studentai[i].egzaminas);
+                    cout << "Iveskite studento egzamino rezultata: ";
+                    while (true) {
+                        cin >> pazymys;
+                        if (pazymys < 0 || pazymys > 10 || cin.fail()) {
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
+                            continue;
+                        }
+                        naujas_studentas.egzaminas = pazymys;
+                        break;
+                    }
 
-        cout << setw(20) << left << studentai[i].vardas << setw(20) << left << studentai[i].pavarde;
+                    studentai.push_back(naujas_studentas);
+                    ivestiStudentai++;
+                } else {
+                    cout << "Pasiektas maksimalus studentų skaičius (" << maxStudentu << ").\n";
+                }
+                break;
+            }
+            case '2': {
+                if (ivestiStudentai < maxStudentu) {
+                    Studentas naujas_studentas;
+                    cout << "Iveskite studento varda: ";
+                    cin >> naujas_studentas.vardas;
+                    cout << "Iveskite studento pavarde: ";
+                    cin >> naujas_studentas.pavarde;
 
-        if (isvedimoPasirinkimas == 'V' || isvedimoPasirinkimas == 'A') {
-            cout << setw(15) << right << fixed << setprecision(2) << vidurkis;
+                    // Sugeneruojame tris atsitiktinius pažymius
+                    for (int i = 0; i < 3; ++i) {
+                        naujas_studentas.nd.push_back(rand() % 10 + 1);
+                    }
+
+                    naujas_studentas.egzaminas = rand() % 10 + 1;
+                    studentai.push_back(naujas_studentas);
+                    ivestiStudentai++;
+                } else {
+                    cout << "Pasiektas maksimalus studentų skaičius (" << maxStudentu << ").\n";
+                }
+                break;
+            }
+            case '3': {
+                if (ivestiStudentai < maxStudentu) {
+                    Studentas naujas_studentas;
+                    string vardai[] = {"Nojus", "Domas", "Mykolas", "Vytenis", "Rokas", "Emilis", "Edgaras", "Karolis", "Petras", "Matas"};
+                    string pavardes[] = {"Kazlauskas", "Petrauskas", "Jankauskas", "Butkus", "Paulauskas", "Vasiliauskas", "Urbonas", "Navickas", "Ramanauskas", "Kavaliauskas"};
+
+                    naujas_studentas.vardas = vardai[rand() % 10];
+                    naujas_studentas.pavarde = pavardes[rand() % 10];
+
+                    for (int i = 0; i < 3; ++i) {
+                        naujas_studentas.nd.push_back(rand() % 10 + 1);
+                    }
+
+                    naujas_studentas.egzaminas = rand() % 10 + 1;
+                    studentai.push_back(naujas_studentas);
+                    ivestiStudentai++;
+                } else {
+                    cout << "Pasiektas maksimalus studentų skaičius (" << maxStudentu << ").\n";
+                }
+                break;
+            }
+            case '4':
+                cout << "Darbas baigtas.\n";
+                break;
+            default:
+                cout << "Neteisingas pasirinkimas.\n";
         }
-        if (isvedimoPasirinkimas == 'M' || isvedimoPasirinkimas == 'A') {
-            cout << setw(17) << right << fixed << setprecision(2) << mediana;
+
+    } while (pasirinkimas != '4');
+
+    // Išvedimas
+
+    if (!studentai.empty()) 
+    {
+        cout << setw(20) << left << "Vardas" << setw(20) << left << "Pavarde" << setw(15) << right << "Galutinis (Vid.)" << setw(17) << right << "Galutinis (Med.)" << endl;
+        cout << "-------------------------------------------------------------------------" << endl;
+
+        for (int i = 0; i < studentai.size(); ++i) {
+            double vidurkis = skaiciuotiGalutiniVidurki(studentai[i].nd, studentai[i].egzaminas);
+            double mediana = skaiciuotiGalutiniMediana(studentai[i].nd, studentai[i].egzaminas);
+
+            cout << setw(20) << left << studentai[i].vardas << setw(20) << left << studentai[i].pavarde << setw(15) << right << fixed << setprecision(2) << vidurkis << setw(17) << right << fixed << setprecision(2) << mediana << endl;
         }
-        cout << endl;
+    } else {
+        cout << "Nera studentu duomenu.\n";
     }
 
     return 0;
