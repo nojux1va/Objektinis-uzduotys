@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <limits>
+#include <stdio.h>
 
 using namespace std;
 
@@ -246,21 +247,46 @@ int main() {
     }
 
     // Išvedimas į ekraną
-    cout << left << setw(15) << "Vardas" << setw(15) << "Pavarde" 
-         << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
-    cout << string(70, '-') << endl;
+    //cout << left << setw(15) << "Vardas" << setw(15) << "Pavarde" 
+    //     << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
+    //cout << string(70, '-') << endl;
     //for (const auto& s : studentai) {
     //    cout << setw(15) << s.vardas << setw(15) << s.pavarde 
     //         << setw(20) << fixed << setprecision(2) << s.galutinisVid 
     //         << setw(20) << fixed << setprecision(2) << s.galutinisMed << endl;
     //}
-    for (size_t i = 0; i < studentai.size(); ++i) {
-        cout << setw(15) << studentai[i].vardas << setw(15) << studentai[i].pavarde 
-         << setw(20) << fixed << setprecision(2) << studentai[i].galutinisVid 
-         << setw(20) << fixed << setprecision(2) << studentai[i].galutinisMed << endl;
+    //for (size_t i = 0; i < studentai.size(); ++i) {
+    //    cout << setw(15) << studentai[i].vardas << setw(15) << studentai[i].pavarde 
+    //     << setw(20) << fixed << setprecision(2) << studentai[i].galutinisVid 
+    //     << setw(20) << fixed << setprecision(2) << studentai[i].galutinisMed << endl;
+    //}
+
+    
+    
+    remove("rezultatai.txt");
+    
+
+    ofstream rezultatai("rezultatai.txt"); // Sukuria objektą failo išvedimui
+
+    
+
+    if (!rezultatai) {
+        cout << "Nepavyko atidaryti failo rašymui." << endl;
+        return 1; // Grąžina klaidos kodą
     }
 
+    // Išvedimas į failą
+    rezultatai << left << setw(15) << "Vardas" << setw(15) << "Pavarde" 
+               << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
+    rezultatai << string(70, '-') << endl;
 
+    for (size_t i = 0; i < studentai.size(); ++i) {
+        rezultatai << setw(15) << studentai[i].vardas << setw(15) << studentai[i].pavarde 
+                   << setw(20) << fixed << setprecision(2) << studentai[i].galutinisVid 
+                   << setw(20) << fixed << setprecision(2) << studentai[i].galutinisMed << endl;
+    }
+
+    rezultatai.close(); // Uždaro failą
 
     return 0;
 }
