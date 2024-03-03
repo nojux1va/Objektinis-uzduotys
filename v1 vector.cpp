@@ -7,8 +7,10 @@
 #include <string>
 #include <limits>
 #include <stdio.h>
+#include <chrono> // Biblioteka laiko matavimui
 
 using namespace std;
+using namespace std::chrono;
 
 struct Studentas {
     string vardas;
@@ -46,6 +48,9 @@ void skaitytiIsFailo(vector<Studentas>& studentai, const string& failoPavadinima
     }
     // Praleidžiama antraštė
     string eilute;
+
+    auto pradzia = chrono::high_resolution_clock::now();
+
     getline(failas, eilute);
 
     while (getline(failas, eilute)) {
@@ -63,6 +68,11 @@ void skaitytiIsFailo(vector<Studentas>& studentai, const string& failoPavadinima
         studentai.push_back(s);
     }
     failas.close();
+
+    auto pabaiga = chrono::high_resolution_clock::now();
+    chrono::duration<double> trukme = pabaiga - pradzia;
+    cout << "Skaitymas iš failo užtruko: " << trukme.count() << " sekundžių." << endl;
+
 }
 
 bool compareVardas (const Studentas& a, const Studentas& b) {
@@ -88,7 +98,7 @@ int main() {
     srand(time(NULL));//gaaaal reiks istrint
 
     cout << "Pasirinkite veiksmą:\n";
-    cout << "1 - įvesti ranka\n";
+    cout << "1 - įvesti ranka/generuoti\n";
     cout << "2 - skaityti iš failo 'studentai.txt'\n";
     cout << "Jūsų pasirinkimas: ";
     cin >> pasirinkimas;
@@ -207,7 +217,7 @@ int main() {
             } while (pasirinkimas != '4');
             break;
         case '2':
-            skaitytiIsFailo(studentai, "studentai10000.txt");
+            skaitytiIsFailo(studentai, "studentai1000000.txt");
             break;
         default:
             cout << "Neteisingas pasirinkimas. Programa baigiama." << endl;
@@ -243,7 +253,9 @@ int main() {
     }
 
     remove("kursiokai.txt");
-    
+
+    auto pradzia = chrono::high_resolution_clock::now();
+
     ofstream rezultatai("kursiokai.txt"); // Sukuria objektą failo išvedimui
 
     if (!rezultatai) {
@@ -263,6 +275,10 @@ int main() {
     }
 
     rezultatai.close(); // Uždaro failą
+
+    auto pabaiga = chrono::high_resolution_clock::now();
+    chrono::duration<double> trukme = pabaiga - pradzia;
+    cout << "Rašymas į failą užtruko: " << trukme.count() << " sekundžių." << endl;
 
     return 0;
 }
