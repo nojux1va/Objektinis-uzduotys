@@ -85,6 +85,8 @@ int main() {
     vector<Studentas> studentai;
     char pasirinkimas;
 
+    srand(time(NULL));//gaaaal reiks istrint
+
     cout << "Pasirinkite veiksmą:\n";
     cout << "1 - įvesti ranka\n";
     cout << "2 - skaityti iš failo 'studentai.txt'\n";
@@ -149,6 +151,9 @@ int main() {
                             break;
                         }
 
+                        naujas_studentas.galutinisVid = skaiciuotiGalutiniVidurki(naujas_studentas.nd, naujas_studentas.egzaminas);
+                        naujas_studentas.galutinisMed = skaiciuotiGalutiniMediana(naujas_studentas.nd, naujas_studentas.egzaminas);
+
                         studentai.push_back(naujas_studentas);                        
                         break;
                     }
@@ -166,6 +171,9 @@ int main() {
                         }
 
                         naujas_studentas.egzaminas = rand() % 10 + 1;
+
+                        naujas_studentas.galutinisVid = skaiciuotiGalutiniVidurki(naujas_studentas.nd, naujas_studentas.egzaminas);
+                        naujas_studentas.galutinisMed = skaiciuotiGalutiniMediana(naujas_studentas.nd, naujas_studentas.egzaminas);
                         studentai.push_back(naujas_studentas);                        
                         break;
                     }
@@ -183,6 +191,9 @@ int main() {
                         }
 
                         naujas_studentas.egzaminas = rand() % 10 + 1;
+
+                        naujas_studentas.galutinisVid = skaiciuotiGalutiniVidurki(naujas_studentas.nd, naujas_studentas.egzaminas);
+                        naujas_studentas.galutinisMed = skaiciuotiGalutiniMediana(naujas_studentas.nd, naujas_studentas.egzaminas);
                         studentai.push_back(naujas_studentas);
                         break;
                     }
