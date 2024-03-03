@@ -44,7 +44,6 @@ int main() {
 
     srand(time(NULL));
 
-    int maxStudentu = 10; // maksimalus studentų skaičius
     int ivestiStudentai = 0; // skaičius jau įvestų studentų
 
     do {
@@ -58,106 +57,98 @@ int main() {
         
         switch (pasirinkimas) {
             case '1': {
-                if (ivestiStudentai < maxStudentu) {
-                    Studentas naujas_studentas;
-                    cout << "Iveskite studento varda: ";
-                    cin >> naujas_studentas.vardas;
-                    cout << "Iveskite studento pavarde: ";
-                    cin >> naujas_studentas.pavarde;
+                Studentas naujas_studentas;
+                cout << "Iveskite studento varda: ";
+                cin >> naujas_studentas.vardas;
+                cout << "Iveskite studento pavarde: ";
+                cin >> naujas_studentas.pavarde;
 
-                    int pazymys;
-                    bool bentVienasPazymys = false;
+                int pazymys;
+                bool bentVienasPazymys = false;
 
-                    cout << "Iveskite studento namu darbu rezultatus (-1 baigti ivedineti): ";
-                    while (true) {
-                        cin >> pazymys;
-                        if (pazymys == -1 && bentVienasPazymys == true)
-                            break;
-                        if (pazymys < 0 || pazymys > 10 || cin.fail()) {
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
-                            continue;
-                        }
-                        naujas_studentas.nd.push_back(pazymys);
-                        bentVienasPazymys = true;
-                        cout << "Iveskite kitos namu darbu rezultata (-1 baigti ivedineti): ";
-                    }
-
-                    if (!bentVienasPazymys) {
-                        cout << "Bent vienas pažymys turi būti įvestas. Bandykite dar kartą." << endl;
+                cout << "Iveskite studento namu darbu rezultatus (-1 baigti ivedineti): ";
+                while (true) {
+                    cin >> pazymys;
+                    if (pazymys == -1 && bentVienasPazymys == true)
+                        break;
+                    if (pazymys < 0 || pazymys > 10 || cin.fail()) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
                         continue;
                     }
-
-                    cout << "Iveskite studento egzamino rezultata: ";
-                    while (true) {
-                        cin >> pazymys;
-                        if (pazymys < 0 || pazymys > 10 || cin.fail()) {
-                            cin.clear();
-                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                            cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
-                            continue;
-                        }
-                        naujas_studentas.egzaminas = pazymys;
-                        break;
-                    }
-
-                    studentai.push_back(naujas_studentas);
-                    ivestiStudentai++;
-                } else {
-                    cout << "Pasiektas maksimalus studentų skaičius (" << maxStudentu << ").\n";
+                    naujas_studentas.nd.push_back(pazymys);
+                    bentVienasPazymys = true;
+                    cout << "Iveskite kitos namu darbu rezultata (-1 baigti ivedineti): ";
                 }
+
+                if (!bentVienasPazymys) {
+                    cout << "Bent vienas pažymys turi būti įvestas. Bandykite dar kartą." << endl;
+                    continue;
+                }
+
+                cout << "Iveskite studento egzamino rezultata: ";
+                while (true) {
+                    cin >> pazymys;
+                    if (pazymys < 0 || pazymys > 10 || cin.fail()) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Netinkamas pazymys. Prašome įvesti skaičių nuo 0 iki 10: ";
+                        continue;
+                    }
+                    naujas_studentas.egzaminas = pazymys;
+                    break;
+                }
+
+                studentai.push_back(naujas_studentas);
+                ivestiStudentai++;
+                
                 break;
             }
             case '2': {
-                if (ivestiStudentai < maxStudentu) {
-                    Studentas naujas_studentas;
-                    cout << "Iveskite studento varda: ";
-                    cin >> naujas_studentas.vardas;
-                    cout << "Iveskite studento pavarde: ";
-                    cin >> naujas_studentas.pavarde;
+                
+                Studentas naujas_studentas;
+                cout << "Iveskite studento varda: ";
+                cin >> naujas_studentas.vardas;
+                cout << "Iveskite studento pavarde: ";
+                cin >> naujas_studentas.pavarde;
 
-                    // Sugeneruojame tris atsitiktinius pažymius
-                    for (int i = 0; i < 3; ++i) {
-                        naujas_studentas.nd.push_back(rand() % 10 + 1);
-                    }
-
-                    naujas_studentas.egzaminas = rand() % 10 + 1;
-                    studentai.push_back(naujas_studentas);
-                    ivestiStudentai++;
-                } else {
-                    cout << "Pasiektas maksimalus studentų skaičius (" << maxStudentu << ").\n";
+                // Sugeneruojame tris atsitiktinius pažymius
+                for (int i = 0; i < 3; ++i) {
+                    naujas_studentas.nd.push_back(rand() % 10 + 1);
                 }
+
+                naujas_studentas.egzaminas = rand() % 10 + 1;
+                studentai.push_back(naujas_studentas);
+                ivestiStudentai++;
+                
                 break;
             }
             case '3': {
-                if (ivestiStudentai < maxStudentu) {
-                    Studentas naujas_studentas;
-                    string vardai[] = {"Nojus", "Domas", "Mykolas", "Vytenis", "Rokas", "Emilis", "Edgaras", "Karolis", "Petras", "Matas"};
-                    string pavardes[] = {"Kazlauskas", "Petrauskas", "Jankauskas", "Butkus", "Paulauskas", "Vasiliauskas", "Urbonas", "Navickas", "Ramanauskas", "Kavaliauskas"};
+                
+                Studentas naujas_studentas;
+                string vardai[] = {"Nojus", "Domas", "Mykolas", "Vytenis", "Rokas", "Emilis", "Edgaras", "Karolis", "Petras", "Matas"};
+                string pavardes[] = {"Kazlauskas", "Petrauskas", "Jankauskas", "Butkus", "Paulauskas", "Vasiliauskas", "Urbonas", "Navickas", "Ramanauskas", "Kavaliauskas"};
 
-                    naujas_studentas.vardas = vardai[rand() % 10];
-                    naujas_studentas.pavarde = pavardes[rand() % 10];
+                naujas_studentas.vardas = vardai[rand() % 10];
+                naujas_studentas.pavarde = pavardes[rand() % 10];
 
-                    for (int i = 0; i < 3; ++i) {
-                        naujas_studentas.nd.push_back(rand() % 10 + 1);
-                    }
-
-                    naujas_studentas.egzaminas = rand() % 10 + 1;
-                    studentai.push_back(naujas_studentas);
-                    ivestiStudentai++;
-                } else {
-                    cout << "Pasiektas maksimalus studentų skaičius (" << maxStudentu << ").\n";
+                for (int i = 0; i < 3; ++i) {
+                    naujas_studentas.nd.push_back(rand() % 10 + 1);
                 }
+
+                naujas_studentas.egzaminas = rand() % 10 + 1;
+                studentai.push_back(naujas_studentas);
+                ivestiStudentai++;    
                 break;
             }
+            
             case '4':
                 cout << "Darbas baigtas.\n";
                 break;
             default:
                 cout << "Neteisingas pasirinkimas.\n";
         }
-
     } while (pasirinkimas != '4');
 
     // Išvedimas
