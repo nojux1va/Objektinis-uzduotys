@@ -214,31 +214,16 @@ int main() {
     // Rūšiavimas pagal pasirinkimą
     switch (pasirinkimas) {
         case '1':
-            
-            // Tada naudojate šią funkciją su sort
             sort(studentai.begin(), studentai.end(), compareVardas);
-            
-            //sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-            //    return a.vardas < b.vardas;
-            //});
             break;
         case '2':
             sort(studentai.begin(), studentai.end(), comparePavarde);
-            //sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-            //    return a.pavarde < b.pavarde;
-            //});
             break;
         case '3':
             sort(studentai.begin(), studentai.end(), compareGalutinisVid);
-            //sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-            //    return a.galutinisVid < b.galutinisVid;
-            //});
             break;
         case '4':
             sort(studentai.begin(), studentai.end(), compareGalutinisMed);
-            //sort(studentai.begin(), studentai.end(), [](const Studentas& a, const Studentas& b) {
-            //    return a.galutinisMed < b.galutinisMed;
-            //});
             break;
         default:
             cout << "Neteisingas pasirinkimas. Naudojama numatytoji rūšiavimo tvarka (pagal vardą)." << endl;
@@ -246,29 +231,9 @@ int main() {
 
     }
 
-    // Išvedimas į ekraną
-    //cout << left << setw(15) << "Vardas" << setw(15) << "Pavarde" 
-    //     << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
-    //cout << string(70, '-') << endl;
-    //for (const auto& s : studentai) {
-    //    cout << setw(15) << s.vardas << setw(15) << s.pavarde 
-    //         << setw(20) << fixed << setprecision(2) << s.galutinisVid 
-    //         << setw(20) << fixed << setprecision(2) << s.galutinisMed << endl;
-    //}
-    //for (size_t i = 0; i < studentai.size(); ++i) {
-    //    cout << setw(15) << studentai[i].vardas << setw(15) << studentai[i].pavarde 
-    //     << setw(20) << fixed << setprecision(2) << studentai[i].galutinisVid 
-    //     << setw(20) << fixed << setprecision(2) << studentai[i].galutinisMed << endl;
-    //}
-
+    remove("kursiokai.txt");
     
-    
-    remove("rezultatai.txt");
-    
-
-    ofstream rezultatai("rezultatai.txt"); // Sukuria objektą failo išvedimui
-
-    
+    ofstream rezultatai("kursiokai.txt"); // Sukuria objektą failo išvedimui
 
     if (!rezultatai) {
         cout << "Nepavyko atidaryti failo rašymui." << endl;
